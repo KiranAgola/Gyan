@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "Account": {
+      "title": "Account",
+      "description": "Represents an income or expense category/account.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the account (e.g., Salary, Food, Cash)." },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Type of account." },
+        "icon": { "type": "string", "description": "Lucide icon name string." },
+        "color": { "type": "string", "description": "Tailwind color class for the account." },
+        "ownerId": { "type": "string", "description": "UID of the user who owns this account." }
+      },
+      "required": ["name", "type", "ownerId"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Represents a single income or expense entry.",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number", "description": "The amount of the transaction." },
+        "date": { "type": "string", "format": "date-time", "description": "The date of the transaction." },
+        "accountId": { "type": "string", "description": "Reference to the account ID." },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Type of transaction (redundant but helpful)." },
+        "note": { "type": "string", "description": "Additional notes for the transaction." },
+        "ownerId": { "type": "string", "description": "UID of the user who owns this transaction." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp of creation." }
+      },
+      "required": ["amount", "date", "accountId", "type", "ownerId"]
+    }
+  },
+  "firestore": {
+    "/accounts/{accountId}": {
+      "schema": "Account",
+      "description": "User's accounts/categories."
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "User's individual transactions."
+    }
+  }
+}
